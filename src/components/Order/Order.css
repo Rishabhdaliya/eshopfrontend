@@ -1,0 +1,32 @@
+.order {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.order__card {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-color: white;
+  border-radius: 3px;
+  width: 1000px;
+  padding: 10px 30px;
+
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.card__products {
+  width: 500px;
+}
+
+.card__address {
+  border-left: 1px solid rgb(197, 197, 197);
+  padding: 0 20px;
+  height: 400px;
+  width: 400px;
+}
+
+.address__head {
+  margin: 20px 0 !important;
+}

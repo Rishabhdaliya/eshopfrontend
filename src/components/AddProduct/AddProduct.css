@@ -1,0 +1,12 @@
+.addproduct {
+  margin-top: 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.product__input {
+  margin-bottom: 15px !important;
+  width: 370px;
+}

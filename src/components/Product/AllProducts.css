@@ -1,0 +1,10 @@
+.allproducts {
+  margin-top: 85px;
+  padding: 0 80px;
+}
+
+.toggle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

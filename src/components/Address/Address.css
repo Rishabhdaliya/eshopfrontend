@@ -1,0 +1,18 @@
+.address {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.address__input {
+  margin-bottom: 15px !important;
+  width: 370px;
+}
+
+.address__btn {
+  background-color: #3f51b5 !important;
+
+  max-width: 370px;
+}
