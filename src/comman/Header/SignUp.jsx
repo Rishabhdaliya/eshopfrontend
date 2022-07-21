@@ -50,12 +50,10 @@ export const SignUp = () => {
     onSubmit: (values) => {
       const data = values;
       delete data.confirmPassword;
-      console.log(data);
       dispatch(addUser(data));
       // alert(JSON.stringify(values, null, 2));
     },
   });
-  console.log(formik);
   return (
     <div className="signup">
       <LockOutlinedIcon className="login__logo" />

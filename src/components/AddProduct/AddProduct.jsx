@@ -40,8 +40,6 @@ export const AddProduct = () => {
     }
   }, []);
 
-  console.log(store);
-
   const updateHandler = () => {
     if (
       name !== "" &&

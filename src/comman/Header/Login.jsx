@@ -35,7 +35,6 @@ export const Login = () => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       const data = values;
-      console.log(data);
       dispatch(login(data)).then(() => navigate("/"));
     },
   });

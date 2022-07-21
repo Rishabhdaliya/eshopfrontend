@@ -11,11 +11,9 @@ export const SingleProduct = () => {
   const store = useSelector((store) => store.product);
   useEffect(() => {
     if (location.pathname === "/checkout") {
-      console.log(location.pathname);
       setCheckout(true);
     }
   }, []);
-  console.log(store.name);
   return (
     <div className={`singleproduct ${checkout ? " " : "topMargin"} `}>
       <div className=" item">

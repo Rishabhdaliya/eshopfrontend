@@ -79,7 +79,6 @@ export const Navbar = () => {
       )
       .then(() => navigate("/login"));
   };
-  console.log(user.isAuthenticated);
   return (
     <AppBar
       position="fixed"

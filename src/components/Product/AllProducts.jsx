@@ -22,7 +22,6 @@ export const AllProducts = () => {
   const store = useSelector((store) => store);
   const dispatch = useDispatch();
 
-  console.log({ store });
   useEffect(() => {
     const loadPost = async () => {
       setLoading(true);
@@ -39,7 +38,6 @@ export const AllProducts = () => {
 
   const handleSort = (event) => {
     setAge(event.target.value);
-    console.log(age);
     if (event.target.value === 20) {
       const sorted = product.sort(
         (a, b) => parseFloat(b.price) - parseFloat(a.price)
@@ -77,7 +75,6 @@ export const AllProducts = () => {
       setProduct(apiData);
     }
   };
-  console.log({ product });
   return (
     <div className="allproducts">
       <div className="toggle">

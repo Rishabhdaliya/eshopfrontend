@@ -84,7 +84,7 @@ export const addAddress = (data) => async (dispatch) => {
     });
     dispatch({
       type: AuthActionType.ADD_ADDRESS_SUCCESS,
-      payload: response.data,
+      payload: response.data.data,
     });
   } catch (error) {
     dispatch({

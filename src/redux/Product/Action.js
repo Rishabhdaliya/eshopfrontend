@@ -142,3 +142,29 @@ export const calculateOrder = (data) => async (dispatch) => {
     payload: data,
   });
 };
+
+// PLACE ORDER
+export const placeOrder = (data) => async (dispatch) => {
+  dispatch({
+    type: ProductActionType.PLACE_ORDER_START,
+  });
+
+  try {
+    const response = await axios({
+      method: "POST",
+      url: "http://localhost:8080/api/orders",
+      data,
+      //   header: { Authorization: `Bearer ${Cookies.get("token")}` },
+    });
+    dispatch({
+      type: ProductActionType.PLACE_ORDER_SUCCESS,
+      payload: response.data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ProductActionType.PLACE_ORDER_FAIL,
+      payload: error,
+      isError: true,
+    });
+  }
+};

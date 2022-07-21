@@ -10,6 +10,8 @@ import { SingleProduct } from "../Product/SingleProduct";
 import { Address } from "../Address/Address";
 import { Order } from "../Order/Order";
 import { useNavigate } from "react-router";
+import { useSelector, useDispatch } from "react-redux";
+import { placeOrder } from "../../redux/Product/Action";
 
 const steps = ["Items", "Select Address", "Confirm Order"];
 
@@ -17,6 +19,8 @@ export const Checkout = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const navigate = useNavigate();
+  const store = useSelector((store) => store);
+  const dispatch = useDispatch();
 
   const isStepOptional = (step) => {
     return step === 1;
@@ -38,7 +42,14 @@ export const Checkout = () => {
   };
 
   const orderHandler = () => {
-    navigate("/");
+    const order = {
+      addressId: store.user.addressId,
+      userId: store.user.userId,
+      productId: store.product.productId,
+      quantity: parseInt(store.product.quantity),
+    };
+    dispatch(placeOrder(order));
+    // navigate("/");
   };
 
   const handleBack = () => {
@@ -63,7 +74,6 @@ export const Checkout = () => {
   const handleReset = () => {
     setActiveStep(0);
   };
-
   return (
     <Box sx={{ width: "100%", marginTop: "100px" }}>
       <div className="checkout">
@@ -112,6 +122,9 @@ export const Checkout = () => {
               <Button
                 sx={{ backgroundColor: "#3F51B5", fontSize: "15px" }}
                 variant="contained"
+                disabled={
+                  activeStep === 2 ? !store.user.addressId && true : false
+                }
                 onClick={activeStep === 2 ? orderHandler : handleNext}
               >
                 {activeStep === 2 ? "Place Order" : "Next"}

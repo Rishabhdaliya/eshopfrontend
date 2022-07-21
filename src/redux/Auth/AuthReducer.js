@@ -2,10 +2,11 @@ import AuthActionType from "./AuthActionType";
 import Cookies from "js-cookie";
 
 const initialState = {
-  newUser: "",
   User: "",
+  userId: null,
   isAuthenticated: false,
   address: "",
+  addressId: null,
 };
 
 const AuthReducer = (state = initialState, action) => {
@@ -19,7 +20,6 @@ const AuthReducer = (state = initialState, action) => {
     case AuthActionType.ADD_USER_SUCCESS:
       return {
         ...state,
-        newUser: action.payload,
       };
     case AuthActionType.ADD_USER_FAIL:
       return {
@@ -37,6 +37,7 @@ const AuthReducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.payload.data,
+        userId: action.payload.data.userId,
         isAuthenticated: action.payload.data.isAuthenticated,
       };
     case AuthActionType.LOGIN_USER_FAIL:
@@ -48,9 +49,11 @@ const AuthReducer = (state = initialState, action) => {
     case AuthActionType.LOGOUT_USER_SUCCESS:
       return {
         ...state,
-        user: "",
+        User: "",
+        userId: null,
         isAuthenticated: false,
         address: "",
+        addressId: null,
       };
     // Add Address
     case AuthActionType.ADD_ADDRESS_START:
@@ -62,6 +65,7 @@ const AuthReducer = (state = initialState, action) => {
       return {
         ...state,
         address: action.payload,
+        addressId: action.payload._id,
       };
     case AuthActionType.ADD_ADDRESS_FAIL:
       return {

@@ -14,7 +14,6 @@ export const Product = (props) => {
   const navigate = useNavigate();
 
   const editHandler = async (item) => {
-    console.log(item._id);
     await dispatch(productById(item._id));
 
     await navigate(`/modifyproduct/${item._id}`);

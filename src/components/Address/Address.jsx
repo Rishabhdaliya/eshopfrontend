@@ -10,7 +10,7 @@ import Select from "@mui/material/Select";
 import * as yup from "yup";
 import { ref } from "yup";
 import { useFormik } from "formik";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addAddress, addUser } from "../../redux/Auth/AuthAction";
 import { Link } from "react-router-dom";
 
@@ -32,6 +32,7 @@ const validationSchema = yup.object({
 export const Address = () => {
   const [age, setAge] = React.useState("");
   const dispatch = useDispatch();
+  const address = useSelector((store) => store.user.address);
 
   const formik = useFormik({
     initialValues: {
@@ -46,7 +47,6 @@ export const Address = () => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       const data = values;
-      console.log(data);
       dispatch(addAddress(data));
       alert(JSON.stringify(values, null, 2));
     },
@@ -60,17 +60,17 @@ export const Address = () => {
     <div className="address">
       <Box sx={{ minWidth: 700 }}>
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Age</InputLabel>
+          <InputLabel id="demo-simple-select-label">Select Address</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={age}
-            label="Age"
+            label="Select Address"
             onChange={handleChange}
           >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+            <MenuItem
+              value={10}
+            >{`${address.street} >> ${address.city} >> ${address.state}`}</MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -161,7 +161,7 @@ export const Address = () => {
           id="outlined-basic"
           className="address__input"
           label="Zip Code"
-          type="number"
+          type="text"
           variant="outlined"
           required
           name="zipcode"

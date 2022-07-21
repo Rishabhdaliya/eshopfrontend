@@ -13,7 +13,6 @@ export const SingleProductDetail = (props) => {
   const location = useLocation();
   useEffect(() => {
     if (location.pathname === "/checkout") {
-      console.log(location.pathname);
       setCheckout(true);
     }
   }, []);

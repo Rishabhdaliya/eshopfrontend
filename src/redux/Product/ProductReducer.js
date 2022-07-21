@@ -14,6 +14,7 @@ const initialState = {
   description: "",
   quantity: 1,
   totalPrice: 0,
+  order: null,
 };
 
 const ProductReducer = (state = initialState, action) => {
@@ -136,6 +137,25 @@ const ProductReducer = (state = initialState, action) => {
         ...state,
         quantity: action.payload,
         totalPrice: action.payload * state.price,
+      };
+
+    //PLACE_ORDER
+    case ProductActionType.PLACE_ORDER_START:
+      return {
+        ...state,
+        isError: false,
+      };
+    case ProductActionType.PLACE_ORDER_SUCCESS:
+      return {
+        ...state,
+        order: action.payload,
+      };
+
+    // PRODUCT BY ID
+    case ProductActionType.PLACE_ORDER_FAIL:
+      return {
+        ...state,
+        isError: true,
       };
     default: {
       return state;

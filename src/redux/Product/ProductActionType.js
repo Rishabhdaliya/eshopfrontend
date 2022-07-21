@@ -29,5 +29,11 @@ const ProductActionType = {
 
   //GET ONE Products
   CLEAR_PRODUCT_DATA: "CLEAR_PRODUCT_DATA",
+
+  PLACE_ORDER_START: "PLACE_ORDER_START",
+  PLACE_ORDER_SUCCESS: "PLACE_ORDER_SUCCESS",
+  PLACE_ORDER_FAIL: "PLACE_ORDER_FAIL",
+
+  // Place order
 };
 export default ProductActionType;
