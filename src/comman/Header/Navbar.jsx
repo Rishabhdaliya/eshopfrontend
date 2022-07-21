@@ -23,7 +23,10 @@ import {
   AccordionDetails,
 } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/Auth/AuthAction";
+import Cookies from "js-cookie";
 
 export const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -31,6 +34,9 @@ export const Navbar = () => {
   const [userName, setUserName] = React.useState("");
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const user = useSelector((store) => store.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -63,6 +69,17 @@ export const Navbar = () => {
     setAnchorElUser(null);
   };
 
+  const logoutHandler = () => {
+    dispatch(logout())
+      .then(
+        () => Cookies.remove("token"),
+        Cookies.remove("userName"),
+        Cookies.remove("role"),
+        Cookies.remove("isAuthenticated")
+      )
+      .then(() => navigate("/login"));
+  };
+  console.log(user.isAuthenticated);
   return (
     <AppBar
       position="fixed"
@@ -170,24 +187,28 @@ export const Navbar = () => {
               alignItems: "center",
             }}
           >
-            <Link className="link" to="/">
-              <Typography
-                variant="body1"
-                sx={{ margin: "0 10px", cursor: "pointer" }}
-              >
-                Home
-              </Typography>
-            </Link>
-            <Link className="link" to="/addproduct">
-              <Typography
-                variant="body1"
-                sx={{ margin: "0 10px", cursor: "pointer" }}
-              >
-                Add Product
-              </Typography>
-            </Link>
+            {user.isAuthenticated && (
+              <Link className="link" to="/">
+                <Typography
+                  variant="body1"
+                  sx={{ margin: "0 10px", cursor: "pointer" }}
+                >
+                  Home
+                </Typography>
+              </Link>
+            )}
+            {user.isAuthenticated && (
+              <Link className="link" to="/addproduct">
+                <Typography
+                  variant="body1"
+                  sx={{ margin: "0 10px", cursor: "pointer" }}
+                >
+                  Add Product
+                </Typography>
+              </Link>
+            )}
 
-            {false && (
+            {!user.isAuthenticated && (
               <Link className="link" to="/login">
                 <Typography
                   variant="body1"
@@ -197,7 +218,7 @@ export const Navbar = () => {
                 </Typography>
               </Link>
             )}
-            {false && (
+            {!user.isAuthenticated && (
               <Link className="link" to="/signup">
                 <Typography
                   variant="body1"
@@ -207,14 +228,16 @@ export const Navbar = () => {
                 </Typography>
               </Link>
             )}
-
-            <Button
-              sx={{ marginLeft: "10px", cursor: "pointer" }}
-              color="error"
-              variant="contained"
-            >
-              Logout
-            </Button>
+            {user.isAuthenticated && (
+              <Button
+                sx={{ marginLeft: "10px", cursor: "pointer" }}
+                color="error"
+                variant="contained"
+                onClick={logoutHandler}
+              >
+                Logout
+              </Button>
+            )}
           </Box>
         </Toolbar>
       </Container>

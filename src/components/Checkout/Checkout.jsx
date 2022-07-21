@@ -9,12 +9,14 @@ import "./Checkout.css";
 import { SingleProduct } from "../Product/SingleProduct";
 import { Address } from "../Address/Address";
 import { Order } from "../Order/Order";
+import { useNavigate } from "react-router";
 
 const steps = ["Items", "Select Address", "Confirm Order"];
 
 export const Checkout = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
+  const navigate = useNavigate();
 
   const isStepOptional = (step) => {
     return step === 1;
@@ -33,6 +35,10 @@ export const Checkout = () => {
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
+  };
+
+  const orderHandler = () => {
+    navigate("/");
   };
 
   const handleBack = () => {
@@ -88,22 +94,27 @@ export const Checkout = () => {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            {/* <SingleProduct /> */}
-            {/* <Address /> */}
-            <Order />
+            {activeStep === 0 && <SingleProduct />}
+            {activeStep === 1 && <Address />}
+            {activeStep === 2 && <Order />}
+
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button
                 color="inherit"
                 disabled={activeStep === 0}
                 onClick={handleBack}
-                sx={{ mr: 1 }}
+                sx={{ fontSize: "15px" }}
               >
                 Back
               </Button>
               <Box sx={{ flex: "1 1 auto" }} />
 
-              <Button onClick={handleNext}>
-                {activeStep === steps.length - 1 ? "Finish" : "Next"}
+              <Button
+                sx={{ backgroundColor: "#3F51B5", fontSize: "15px" }}
+                variant="contained"
+                onClick={activeStep === 2 ? orderHandler : handleNext}
+              >
+                {activeStep === 2 ? "Place Order" : "Next"}
               </Button>
             </Box>
           </React.Fragment>

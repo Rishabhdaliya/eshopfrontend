@@ -1,17 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./SingleProduct.css";
 import { Button, ListItem, TextField, Typography } from "@mui/material";
 import { SingleProductDetail } from "./SingleProductDetail";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 export const SingleProduct = () => {
+  const location = useLocation();
+  const [checkout, setCheckout] = useState(false);
+  const store = useSelector((store) => store.product);
+  useEffect(() => {
+    if (location.pathname === "/checkout") {
+      console.log(location.pathname);
+      setCheckout(true);
+    }
+  }, []);
+  console.log(store.name);
   return (
-    <div className="singleproduct">
+    <div className={`singleproduct ${checkout ? " " : "topMargin"} `}>
       <div className=" item">
-        <img
-          src="https://cdn.pixabay.com/photo/2019/03/28/22/23/link-4088190_960_720.png"
-          alt=""
-          className="singleproduct__image"
-        />
+        <img src={store.image} alt="" className="singleproduct__image" />
       </div>
       <div className="singleproduct__details item">
         <SingleProductDetail />

@@ -7,9 +7,11 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import axios from "axios";
-
+import { useDispatch } from "react-redux";
 import "./AllProducts.css";
 import { Product } from "./Product";
+import { useSelector } from "react-redux";
+import { clearProductData } from "../../redux/Product/Action";
 
 export const AllProducts = () => {
   const [alignment, setAlignment] = useState("web");
@@ -17,60 +19,65 @@ export const AllProducts = () => {
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState([]);
   const [apiData, setapiData] = useState([]);
+  const store = useSelector((store) => store);
+  const dispatch = useDispatch();
 
+  console.log({ store });
   useEffect(() => {
     const loadPost = async () => {
       setLoading(true);
-      const response = await axios.get("https://dummyjson.com/products");
-      setProduct(response.data.products);
-      setapiData(response.data.products);
+      const response = await axios.get(
+        "http://localhost:8080/api/products/all_products"
+      );
+      setProduct(response.data.data);
+      setapiData(response.data.data);
       setLoading(false);
     };
-
     loadPost();
+    dispatch(clearProductData());
   }, []);
-  console.log(product);
 
   const handleSort = (event) => {
     setAge(event.target.value);
     console.log(age);
     if (event.target.value === 20) {
-      const sorted = apiData.sort(
+      const sorted = product.sort(
         (a, b) => parseFloat(b.price) - parseFloat(a.price)
       );
       setProduct(sorted);
     } else if (event.target.value === 30) {
-      const sorted = apiData.sort(
+      const sorted = product.sort(
         (a, b) => parseFloat(a.price) - parseFloat(b.price)
       );
       setProduct(sorted);
     } else if (event.target.value === 40) {
-      const sorted = apiData.sort(
-        (a, b) => parseFloat(a.id) - parseFloat(b.id)
+      const sorted = product.sort(
+        (a, b) =>
+          parseFloat(b.createdAt.join()) - parseFloat(a.createdAt.join())
       );
       setProduct(sorted);
     } else {
-      setProduct(apiData);
+      setProduct(product);
     }
   };
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
-    if (event.target.value === "APPAREL") {
-      const selected = apiData.filter((item) => item.category === "fragrances");
+    if (event.target.value === "Baby Care") {
+      const selected = apiData.filter((item) => item.category === "Baby Care");
       setProduct(selected);
-    } else if (event.target.value === "ELECTRONICS") {
+    } else if (event.target.value === "Automotive") {
+      const selected = apiData.filter((item) => item.category === "Automotive");
+      setProduct(selected);
+    } else if (event.target.value === "Bags  Wallets & Belts") {
       const selected = apiData.filter(
-        (item) => item.category === "smartphones"
+        (item) => item.category === "Bags  Wallets & Belts"
       );
-      setProduct(selected);
-    } else if (event.target.value === "PERSONALCARE") {
-      const selected = apiData.filter((item) => item.category === "laptops");
       setProduct(selected);
     } else {
       setProduct(apiData);
     }
   };
-
+  console.log({ product });
   return (
     <div className="allproducts">
       <div className="toggle">
@@ -81,9 +88,11 @@ export const AllProducts = () => {
           onChange={handleChange}
         >
           <ToggleButton value="ALL">ALL</ToggleButton>
-          <ToggleButton value="APPAREL">APPAREL</ToggleButton>
-          <ToggleButton value="ELECTRONICS">ELECTRONICS</ToggleButton>
-          <ToggleButton value="PERSONALCARE">PERSONAL CARE</ToggleButton>
+          <ToggleButton value="Baby Care">APPAREL</ToggleButton>
+          <ToggleButton value="Automotive">AUTOMOTIVE</ToggleButton>
+          <ToggleButton value="Bags  Wallets & Belts">
+            PERSONAL CARE
+          </ToggleButton>
         </ToggleButtonGroup>
       </div>
       <div className="sort">

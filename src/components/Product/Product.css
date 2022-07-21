@@ -10,14 +10,14 @@
   max-width: 280px;
   margin: 20px 40px;
   background-color: white;
-  height: 330px;
+  height: 370px;
   border-radius: 3px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .product__card img {
   width: 280px;
-  height: 160px;
+  height: 200px;
 }
 
 .product__details {
@@ -45,9 +45,16 @@
 }
 .product__icons {
   color: gray;
+  cursor: pointer;
 }
 .card__footer {
   padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card__footerright {
   display: flex;
   justify-content: space-between;
   align-items: center;
