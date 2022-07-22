@@ -68,6 +68,11 @@ export const AddProduct = () => {
       };
       dispatch(updateProduct(store.productId, newProduct));
       dispatch(fetchProduct());
+      setNotification({
+        isOpen: true,
+        message: "Successfully Modified Product",
+        type: "success",
+      });
     }
   };
 
@@ -101,7 +106,7 @@ export const AddProduct = () => {
       setManufacturer("");
       setNotification({
         isOpen: true,
-        message: "Successfully Added Team",
+        message: "Successfully Added Product",
         type: "success",
       });
     }

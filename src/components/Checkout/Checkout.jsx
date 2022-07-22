@@ -12,6 +12,7 @@ import { Order } from "../Order/Order";
 import { useNavigate } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { placeOrder } from "../../redux/Product/Action";
+import { Notify } from "../../UI/Notify";
 
 const steps = ["Items", "Select Address", "Confirm Order"];
 
@@ -21,7 +22,11 @@ export const Checkout = () => {
   const navigate = useNavigate();
   const store = useSelector((store) => store);
   const dispatch = useDispatch();
-
+  const [notification, setNotification] = React.useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
   const isStepOptional = (step) => {
     return step === 1;
   };
@@ -48,8 +53,14 @@ export const Checkout = () => {
       productId: store.product.productId,
       quantity: parseInt(store.product.quantity),
     };
-    dispatch(placeOrder(order));
-    // navigate("/");
+    dispatch(placeOrder(order)).then(() => {
+      navigate("/");
+      setNotification({
+        isOpen: true,
+        message: "Successfully Created Order",
+        type: "success",
+      });
+    });
   };
 
   const handleBack = () => {
@@ -75,64 +86,68 @@ export const Checkout = () => {
     setActiveStep(0);
   };
   return (
-    <Box sx={{ width: "100%", marginTop: "100px" }}>
-      <div className="checkout">
-        <Stepper activeStep={activeStep}>
-          {steps.map((label, index) => {
-            const stepProps = {};
-            const labelProps = {};
+    <>
+      <Notify notification={notification} setNotification={setNotification} />
 
-            if (isStepSkipped(index)) {
-              stepProps.completed = false;
-            }
-            return (
-              <Step key={label} {...stepProps}>
-                <StepLabel {...labelProps}>{label}</StepLabel>
-              </Step>
-            );
-          })}
-        </Stepper>
-        {activeStep === steps.length ? (
-          <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1 }}>
-              All steps completed - you&apos;re finished
-            </Typography>
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              <Box sx={{ flex: "1 1 auto" }} />
-              <Button onClick={handleReset}>Reset</Button>
-            </Box>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            {activeStep === 0 && <SingleProduct />}
-            {activeStep === 1 && <Address />}
-            {activeStep === 2 && <Order />}
+      <Box sx={{ width: "100%", marginTop: "100px" }}>
+        <div className="checkout">
+          <Stepper activeStep={activeStep}>
+            {steps.map((label, index) => {
+              const stepProps = {};
+              const labelProps = {};
 
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              <Button
-                color="inherit"
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                sx={{ fontSize: "15px" }}
-              >
-                Back
-              </Button>
-              <Box sx={{ flex: "1 1 auto" }} />
+              if (isStepSkipped(index)) {
+                stepProps.completed = false;
+              }
+              return (
+                <Step key={label} {...stepProps}>
+                  <StepLabel {...labelProps}>{label}</StepLabel>
+                </Step>
+              );
+            })}
+          </Stepper>
+          {activeStep === steps.length ? (
+            <React.Fragment>
+              <Typography sx={{ mt: 2, mb: 1 }}>
+                All steps completed - you&apos;re finished
+              </Typography>
+              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                <Box sx={{ flex: "1 1 auto" }} />
+                <Button onClick={handleReset}>Reset</Button>
+              </Box>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              {activeStep === 0 && <SingleProduct />}
+              {activeStep === 1 && <Address />}
+              {activeStep === 2 && <Order />}
 
-              <Button
-                sx={{ backgroundColor: "#3F51B5", fontSize: "15px" }}
-                variant="contained"
-                disabled={
-                  activeStep === 2 ? !store.user.addressId && true : false
-                }
-                onClick={activeStep === 2 ? orderHandler : handleNext}
-              >
-                {activeStep === 2 ? "Place Order" : "Next"}
-              </Button>
-            </Box>
-          </React.Fragment>
-        )}
-      </div>
-    </Box>
+              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                <Button
+                  color="inherit"
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  sx={{ fontSize: "15px" }}
+                >
+                  Back
+                </Button>
+                <Box sx={{ flex: "1 1 auto" }} />
+
+                <Button
+                  sx={{ backgroundColor: "#3F51B5", fontSize: "15px" }}
+                  variant="contained"
+                  disabled={
+                    activeStep === 2 ? !store.user.addressId && true : false
+                  }
+                  onClick={activeStep === 2 ? orderHandler : handleNext}
+                >
+                  {activeStep === 2 ? "Place Order" : "Next"}
+                </Button>
+              </Box>
+            </React.Fragment>
+          )}
+        </div>
+      </Box>
+    </>
   );
 };

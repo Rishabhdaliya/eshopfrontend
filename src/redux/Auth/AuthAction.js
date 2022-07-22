@@ -11,7 +11,7 @@ export const addUser = (data) => async (dispatch) => {
   try {
     const response = await axios({
       method: "POST",
-      url: `http://localhost:8080/api/user/sign-up`,
+      url: `${process.env.REACT_APP_API_URL}/api/user/sign-up`,
       data,
     });
     dispatch({
@@ -37,7 +37,7 @@ export const login = (data) => async (dispatch) => {
   try {
     const response = await axios({
       method: "POST",
-      url: `http://localhost:8080/api/user/auth`,
+      url: `${process.env.REACT_APP_API_URL}/api/user/auth`,
       data,
     });
     dispatch({
@@ -76,7 +76,7 @@ export const addAddress = (data) => async (dispatch) => {
   try {
     const response = await axios({
       method: "POST",
-      url: `http://localhost:8080/api/addresses/add-address`,
+      url: `${process.env.REACT_APP_API_URL}/api/addresses/add-address`,
       data,
       headers: { Authorization: `${Cookies.get("token")}` },
     });

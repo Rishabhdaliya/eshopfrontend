@@ -9,11 +9,12 @@ import { DeleteProduct } from "./DeleteProduct";
 import { productById } from "../../redux/Product/Action";
 import { useHistory } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
+import { Notify } from "../../UI/Notify";
 
 export const Product = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((store) => store.user.user);
+  const user = useSelector((store) => store.user);
 
   const editHandler = async (item) => {
     await dispatch(productById(item._id));
@@ -61,7 +62,7 @@ export const Product = (props) => {
                     </Button>
                   </Link>
                   <div className="card__footerright">
-                    {user.role === "admin" && (
+                    {user.userRole === "admin" ? (
                       <>
                         <EditIcon
                           onClick={() => editHandler(item)}
@@ -69,6 +70,8 @@ export const Product = (props) => {
                         />
                         <DeleteProduct _id={item._id} />
                       </>
+                    ) : (
+                      ""
                     )}
                   </div>
                 </div>

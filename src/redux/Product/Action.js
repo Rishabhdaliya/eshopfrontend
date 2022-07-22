@@ -10,7 +10,7 @@ export const fetchProduct = () => async (dispatch) => {
   try {
     const response = await axios({
       method: "GET",
-      url: "http://localhost:8080/api/products/all_products",
+      url: `${process.env.REACT_APP_API_URL}/api/products/all_products`,
       headers: { Authorization: `${Cookies.get("token")}` },
     });
     dispatch({
@@ -35,7 +35,7 @@ export const addProduct = (data) => async (dispatch) => {
   try {
     const response = await axios({
       method: "POST",
-      url: "http://localhost:8080/api/products",
+      url: `${process.env.REACT_APP_API_URL}/api/products`,
       data,
       headers: { Authorization: `${Cookies.get("token")}` },
     });
@@ -61,7 +61,7 @@ export const updateProduct = (_id, data) => async (dispatch) => {
   try {
     const response = await axios({
       method: "PUT",
-      url: `http://localhost:8080/api/products/update/${_id}`,
+      url: `${process.env.REACT_APP_API_URL}/api/products/update/${_id}`,
       data,
       headers: { Authorization: `${Cookies.get("token")}` },
     });
@@ -87,7 +87,7 @@ export const deleteProduct = (_id) => async (dispatch) => {
   try {
     const response = await axios({
       method: "DELETE",
-      url: `http://localhost:8080/api/products/delete/${_id}`,
+      url: `${process.env.REACT_APP_API_URL}/api/products/delete/${_id}`,
 
       headers: { Authorization: `${Cookies.get("token")}` },
     });
@@ -112,7 +112,7 @@ export const productById = (_id) => async (dispatch) => {
   try {
     const response = await axios({
       method: "GET",
-      url: `http://localhost:8080/api/products/${_id}`,
+      url: `${process.env.REACT_APP_API_URL}/api/products/${_id}`,
       headers: { Authorization: `${Cookies.get("token")}` },
     });
     dispatch({
@@ -152,7 +152,7 @@ export const placeOrder = (data) => async (dispatch) => {
   try {
     const response = await axios({
       method: "POST",
-      url: "http://localhost:8080/api/orders",
+      url: `${process.env.REACT_APP_API_URL}/api/orders`,
       data,
       headers: { Authorization: `${Cookies.get("token")}` },
     });

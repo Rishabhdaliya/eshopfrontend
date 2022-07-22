@@ -12,6 +12,7 @@ import "./AllProducts.css";
 import { Product } from "./Product";
 import { useSelector } from "react-redux";
 import { clearProductData, fetchProduct } from "../../redux/Product/Action";
+import { Notify } from "../../UI/Notify";
 
 export const AllProducts = () => {
   const [alignment, setAlignment] = useState("web");
@@ -21,6 +22,11 @@ export const AllProducts = () => {
   const [apiData, setapiData] = useState([]);
   const store = useSelector((store) => store);
   const dispatch = useDispatch();
+  const [notification, setNotification] = React.useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
   useEffect(() => {
     dispatch(fetchProduct());
@@ -72,44 +78,48 @@ export const AllProducts = () => {
   };
 
   return (
-    <div className="allproducts">
-      <div className="toggle">
-        <ToggleButtonGroup
-          color="primary"
-          value={alignment}
-          exclusive
-          onChange={handleChange}
-        >
-          <ToggleButton value="ALL">ALL</ToggleButton>
-          <ToggleButton value="Baby Care">APPAREL</ToggleButton>
-          <ToggleButton value="Automotive">AUTOMOTIVE</ToggleButton>
-          <ToggleButton value="Bags  Wallets & Belts">
-            PERSONAL CARE
-          </ToggleButton>
-        </ToggleButtonGroup>
+    <>
+      <Notify notification={notification} setNotification={setNotification} />
+
+      <div className="allproducts">
+        <div className="toggle">
+          <ToggleButtonGroup
+            color="primary"
+            value={alignment}
+            exclusive
+            onChange={handleChange}
+          >
+            <ToggleButton value="ALL">ALL</ToggleButton>
+            <ToggleButton value="Baby Care">APPAREL</ToggleButton>
+            <ToggleButton value="Automotive">AUTOMOTIVE</ToggleButton>
+            <ToggleButton value="Bags  Wallets & Belts">
+              PERSONAL CARE
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </div>
+        <div className="sort">
+          <Box sx={{ width: 300 }}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Sort By</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={age}
+                label="Sort By"
+                onChange={handleSort}
+              >
+                <MenuItem value={10}>Default</MenuItem>
+                <MenuItem value={20}>Price high to low</MenuItem>
+                <MenuItem value={30}>Price low to high</MenuItem>
+                <MenuItem value={40}>Newest</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+        </div>
+        <div className="products">
+          <Product item={product} />
+        </div>
       </div>
-      <div className="sort">
-        <Box sx={{ width: 300 }}>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Sort By</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={age}
-              label="Sort By"
-              onChange={handleSort}
-            >
-              <MenuItem value={10}>Default</MenuItem>
-              <MenuItem value={20}>Price high to low</MenuItem>
-              <MenuItem value={30}>Price low to high</MenuItem>
-              <MenuItem value={40}>Newest</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
-      </div>
-      <div className="products">
-        <Product item={product} />
-      </div>
-    </div>
+    </>
   );
 };

@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useDispatch } from "react-redux";
 import { deleteProduct, fetchProduct } from "../../redux/Product/Action";
+import { Notify } from "../../UI/Notify";
 
 const style = {
   position: "absolute",
@@ -23,6 +24,11 @@ export const DeleteProduct = (props) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [notification, setNotification] = React.useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
   const dispatch = useDispatch();
 
   const deleteHandler = () => {
@@ -32,12 +38,19 @@ export const DeleteProduct = (props) => {
 
       setTimeout(() => {
         handleClose();
+        setNotification({
+          isOpen: true,
+          message: "Successfully deleted Product",
+          type: "error",
+        });
       }, 500);
     }
   };
 
   return (
     <div>
+      <Notify notification={notification} setNotification={setNotification} />
+
       <DeleteIcon
         onClick={handleOpen}
         sx={{ fontSize: "30px", marginTop: "7px" }}

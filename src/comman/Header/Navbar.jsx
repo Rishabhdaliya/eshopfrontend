@@ -79,7 +79,7 @@ export const Navbar = () => {
       )
       .then(() => navigate("/login"));
   };
-  console.log(user.user.role);
+
   return (
     <AppBar
       position="fixed"
@@ -197,7 +197,7 @@ export const Navbar = () => {
                 </Typography>
               </Link>
             )}
-            {user.isAuthenticated && user.user.role === "admin" && (
+            {user.isAuthenticated && user.userRole === "admin" && (
               <Link className="link" to="/addproduct">
                 <Typography
                   variant="body1"

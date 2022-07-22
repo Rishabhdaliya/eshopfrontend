@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 
 const initialState = {
   User: "",
+  userRole: "user",
   userId: null,
   isAuthenticated: false,
   address: "",
@@ -38,6 +39,7 @@ const AuthReducer = (state = initialState, action) => {
         ...state,
         user: action.payload.data,
         userId: action.payload.data.userId,
+        userRole: action.payload.data.role,
         isAuthenticated: action.payload.data.isAuthenticated,
       };
     case AuthActionType.LOGIN_USER_FAIL:
@@ -50,6 +52,7 @@ const AuthReducer = (state = initialState, action) => {
       return {
         ...state,
         User: "",
+        userRole: "user",
         userId: null,
         isAuthenticated: false,
         address: "",
