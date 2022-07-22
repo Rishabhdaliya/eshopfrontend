@@ -10,9 +10,11 @@ import Box from "@mui/material/Box";
 import {
   addProduct,
   clearProductData,
+  fetchProduct,
   updateProduct,
 } from "../../redux/Product/Action";
 import { useDispatch, useSelector } from "react-redux";
+import { Notify } from "../../UI/Notify";
 
 export const AddProduct = () => {
   const store = useSelector((store) => store.product);
@@ -25,6 +27,11 @@ export const AddProduct = () => {
   const [availableItems, setAvailableItems] = useState(store.availableItems);
   const [image, setImage] = useState(store.image);
   const dispatch = useDispatch();
+  const [notification, setNotification] = React.useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
   useEffect(() => {
     if (store.productId !== null) {
@@ -60,6 +67,7 @@ export const AddProduct = () => {
         description: description,
       };
       dispatch(updateProduct(store.productId, newProduct));
+      dispatch(fetchProduct());
     }
   };
 
@@ -83,6 +91,7 @@ export const AddProduct = () => {
         description: description,
       };
       dispatch(addProduct(newProduct));
+      dispatch(fetchProduct());
       setName("");
       setCategory("");
       setPrice("");
@@ -90,112 +99,121 @@ export const AddProduct = () => {
       setAvailableItems("");
       setImage("");
       setManufacturer("");
+      setNotification({
+        isOpen: true,
+        message: "Successfully Added Team",
+        type: "success",
+      });
     }
   };
 
   return (
-    <div className="addproduct">
-      <Typography variant="h6">
-        {store.productId === null ? "Add Product" : "Modify Product"}
-      </Typography>
-      <TextField
-        required
-        id="outlined-basic"
-        className="product__input"
-        label="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        variant="outlined"
-      />
-      <Box sx={{ width: 370 }}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Category</InputLabel>
-          <Select
-            required
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            className="product__input"
-            value={category}
-            label="Category"
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            <MenuItem value="Automotive">Automotive</MenuItem>
-            <MenuItem value="Baby Care">Baby Care</MenuItem>
-            <MenuItem value="Bags  Wallets & Belts">
-              Bags Wallets & Belts
-            </MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
-      <TextField
-        id="outlined-basic"
-        className="product__input"
-        label="Manufacturer"
-        value={manufacturer}
-        required
-        onChange={(e) => setManufacturer(e.target.value)}
-        variant="outlined"
-      />
-      <TextField
-        id="outlined-basic"
-        className="product__input"
-        label="Available items"
-        type="number"
-        value={availableItems}
-        onChange={(e) => setAvailableItems(parseInt(e.target.value))}
-        required
-        variant="outlined"
-      />
-      <TextField
-        id="outlined-basic"
-        className="product__input"
-        label="Price"
-        value={price}
-        required
-        onChange={(e) => setPrice(parseInt(e.target.value))}
-        type="number"
-        variant="outlined"
-      />
-      <TextField
-        id="outlined-basic"
-        className="product__input"
-        label="Image URL"
-        value={image}
-        onChange={(e) => setImage(e.target.value)}
-        variant="outlined"
-        type="text"
-        required
-      />
+    <>
+      <Notify notification={notification} setNotification={setNotification} />
 
-      <TextField
-        id="outlined-basic"
-        className="product__input"
-        label="Product Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        type="text"
-        variant="outlined"
-        required
-      />
-      {store.productId === null ? (
-        <Button
-          fullWidth
-          variant="contained"
-          onClick={submitHandler}
-          className="address__btn"
-        >
-          Save Product
-        </Button>
-      ) : (
-        <Button
-          fullWidth
-          variant="contained"
-          onClick={updateHandler}
-          className="address__btn"
-        >
-          Modify Product
-        </Button>
-      )}
-    </div>
+      <div className="addproduct">
+        <Typography variant="h6">
+          {store.productId === null ? "Add Product" : "Modify Product"}
+        </Typography>
+        <TextField
+          required
+          id="outlined-basic"
+          className="product__input"
+          label="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          variant="outlined"
+        />
+        <Box sx={{ width: 370 }}>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Category</InputLabel>
+            <Select
+              required
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              className="product__input"
+              value={category}
+              label="Category"
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <MenuItem value="Automotive">Automotive</MenuItem>
+              <MenuItem value="Baby Care">Baby Care</MenuItem>
+              <MenuItem value="Bags  Wallets & Belts">
+                Bags Wallets & Belts
+              </MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+        <TextField
+          id="outlined-basic"
+          className="product__input"
+          label="Manufacturer"
+          value={manufacturer}
+          required
+          onChange={(e) => setManufacturer(e.target.value)}
+          variant="outlined"
+        />
+        <TextField
+          id="outlined-basic"
+          className="product__input"
+          label="Available items"
+          type="number"
+          value={availableItems}
+          onChange={(e) => setAvailableItems(parseInt(e.target.value))}
+          required
+          variant="outlined"
+        />
+        <TextField
+          id="outlined-basic"
+          className="product__input"
+          label="Price"
+          value={price}
+          required
+          onChange={(e) => setPrice(parseInt(e.target.value))}
+          type="number"
+          variant="outlined"
+        />
+        <TextField
+          id="outlined-basic"
+          className="product__input"
+          label="Image URL"
+          value={image}
+          onChange={(e) => setImage(e.target.value)}
+          variant="outlined"
+          type="text"
+          required
+        />
+
+        <TextField
+          id="outlined-basic"
+          className="product__input"
+          label="Product Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          type="text"
+          variant="outlined"
+          required
+        />
+        {store.productId === null ? (
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={submitHandler}
+            className="address__btn"
+          >
+            Save Product
+          </Button>
+        ) : (
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={updateHandler}
+            className="address__btn"
+          >
+            Modify Product
+          </Button>
+        )}
+      </div>
+    </>
   );
 };

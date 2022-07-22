@@ -13,7 +13,6 @@ export const addUser = (data) => async (dispatch) => {
       method: "POST",
       url: `http://localhost:8080/api/user/sign-up`,
       data,
-      //   header: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
     dispatch({
       type: AuthActionType.ADD_USER_SUCCESS,
@@ -40,7 +39,6 @@ export const login = (data) => async (dispatch) => {
       method: "POST",
       url: `http://localhost:8080/api/user/auth`,
       data,
-      //   header: { Authorization: `Bearer ${Cookies.get("token")}` },
     });
     dispatch({
       type: AuthActionType.LOGIN_USER_SUCCESS,
@@ -80,7 +78,7 @@ export const addAddress = (data) => async (dispatch) => {
       method: "POST",
       url: `http://localhost:8080/api/addresses/add-address`,
       data,
-      //   header: { Authorization: `Bearer ${Cookies.get("token")}` },
+      headers: { Authorization: `${Cookies.get("token")}` },
     });
     dispatch({
       type: AuthActionType.ADD_ADDRESS_SUCCESS,

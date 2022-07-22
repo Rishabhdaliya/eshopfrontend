@@ -1,6 +1,6 @@
-import { ActionTypes } from "@mui/base";
 import axios from "axios";
 import ProductActionType from "./ProductActionType";
+import Cookies from "js-cookie";
 
 // Get Products
 export const fetchProduct = () => async (dispatch) => {
@@ -10,12 +10,12 @@ export const fetchProduct = () => async (dispatch) => {
   try {
     const response = await axios({
       method: "GET",
-      url: "http://localhost:8080/",
-      //   header: { Authorization: `Bearer ${cookies.get("token")}` },
+      url: "http://localhost:8080/api/products/all_products",
+      headers: { Authorization: `${Cookies.get("token")}` },
     });
     dispatch({
       type: ProductActionType.FETCH_PRODUCT_SUCCESS,
-      payload: response.data,
+      payload: response.data.data,
     });
   } catch (error) {
     dispatch({
@@ -37,7 +37,7 @@ export const addProduct = (data) => async (dispatch) => {
       method: "POST",
       url: "http://localhost:8080/api/products",
       data,
-      //   header: { Authorization: `Bearer ${Cookies.get("token")}` },
+      headers: { Authorization: `${Cookies.get("token")}` },
     });
     dispatch({
       type: ProductActionType.ADD_PRODUCT_SUCCESS,
@@ -63,7 +63,7 @@ export const updateProduct = (_id, data) => async (dispatch) => {
       method: "PUT",
       url: `http://localhost:8080/api/products/update/${_id}`,
       data,
-      //   header: { Authorization: `Bearer ${Cookies.get("token")}` },
+      headers: { Authorization: `${Cookies.get("token")}` },
     });
     dispatch({
       type: ProductActionType.UPDATE_PRODUCT_SUCCESS,
@@ -89,7 +89,7 @@ export const deleteProduct = (_id) => async (dispatch) => {
       method: "DELETE",
       url: `http://localhost:8080/api/products/delete/${_id}`,
 
-      //   header: { Authorization: `Bearer ${Cookies.get("token")}` },
+      headers: { Authorization: `${Cookies.get("token")}` },
     });
     dispatch({
       type: ProductActionType.DELETE_PRODUCT_SUCCESS,
@@ -113,7 +113,7 @@ export const productById = (_id) => async (dispatch) => {
     const response = await axios({
       method: "GET",
       url: `http://localhost:8080/api/products/${_id}`,
-      //   header: { Authorization: `Bearer ${Cookies.get("token")}` },
+      headers: { Authorization: `${Cookies.get("token")}` },
     });
     dispatch({
       type: ProductActionType.ONE_PRODUCT_SUCCESS,
@@ -154,7 +154,7 @@ export const placeOrder = (data) => async (dispatch) => {
       method: "POST",
       url: "http://localhost:8080/api/orders",
       data,
-      //   header: { Authorization: `Bearer ${Cookies.get("token")}` },
+      headers: { Authorization: `${Cookies.get("token")}` },
     });
     dispatch({
       type: ProductActionType.PLACE_ORDER_SUCCESS,

@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import "./AllProducts.css";
 import { Product } from "./Product";
 import { useSelector } from "react-redux";
-import { clearProductData } from "../../redux/Product/Action";
+import { clearProductData, fetchProduct } from "../../redux/Product/Action";
 
 export const AllProducts = () => {
   const [alignment, setAlignment] = useState("web");
@@ -23,18 +23,13 @@ export const AllProducts = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const loadPost = async () => {
-      setLoading(true);
-      const response = await axios.get(
-        "http://localhost:8080/api/products/all_products"
-      );
-      setProduct(response.data.data);
-      setapiData(response.data.data);
-      setLoading(false);
-    };
-    loadPost();
+    dispatch(fetchProduct());
     dispatch(clearProductData());
   }, []);
+  useEffect(() => {
+    setProduct(store.product.allProducts);
+    setapiData(store.product.allProducts);
+  }, [store.product.allProducts.length]);
 
   const handleSort = (event) => {
     setAge(event.target.value);
@@ -75,6 +70,7 @@ export const AllProducts = () => {
       setProduct(apiData);
     }
   };
+
   return (
     <div className="allproducts">
       <div className="toggle">

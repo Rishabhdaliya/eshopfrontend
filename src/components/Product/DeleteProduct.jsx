@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useDispatch } from "react-redux";
-import { deleteProduct } from "../../redux/Product/Action";
+import { deleteProduct, fetchProduct } from "../../redux/Product/Action";
 
 const style = {
   position: "absolute",
@@ -28,6 +28,8 @@ export const DeleteProduct = (props) => {
   const deleteHandler = () => {
     if (props._id) {
       dispatch(deleteProduct(props._id));
+      dispatch(fetchProduct());
+
       setTimeout(() => {
         handleClose();
       }, 500);
